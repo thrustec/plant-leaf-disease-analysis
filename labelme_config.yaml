@@ -1,0 +1,8 @@
+auto_save: false
+with_image_data: false
+labels:
+  - leaf
+flags:
+  - Emre_reviewed
+  - Merve_reviewed
+validate_label: exact

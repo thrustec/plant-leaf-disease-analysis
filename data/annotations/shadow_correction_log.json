@@ -1,0 +1,17 @@
+{
+  "reported_by": "user",
+  "reported_ids": [
+    "leaf_0121",
+    "leaf_0156",
+    "leaf_0381",
+    "leaf_0395",
+    "leaf_0519",
+    "leaf_0689",
+    "leaf_0743",
+    "leaf_0849",
+    "leaf_0887"
+  ],
+  "issue": "GrabCut draft included cast shadows",
+  "correction": "Assistant-traced leaf priors, explicit shadow background seeds, GrabCut edge refinement, and visible tissue/petiole restorations. All nine corrected outlines await both reviewers.",
+  "test_annotations_changed": false
+}

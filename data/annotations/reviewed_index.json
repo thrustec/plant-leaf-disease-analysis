@@ -1,0 +1,14 @@
+[
+  {
+    "image_id": "leaf_0113",
+    "partition": "development",
+    "plant": "Apple",
+    "health": "Diseased",
+    "Emre_reviewed": true,
+    "Merve_reviewed": true,
+    "annotation_sha256": "a69b75440a36e4fd04aaedef6e57629d1e765d465a600045eb9a48cfbdac8d6c",
+    "mask_path": "data/annotations/reference_masks/leaf_0113.png",
+    "mask_sha256": "da6944d3f7f06177c8a7e5a4f889b90217de1265f6b69b3d17cade5eab3a90fb",
+    "annotation_image_sha256": "3d35302e7150bcfa33ed0f3abe465f359d08a1d0f09ffd3cfdc8a9dd2b0b2ee8"
+  }
+]

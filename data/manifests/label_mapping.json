@@ -1,0 +1,28 @@
+{
+  "labels": {
+    "Healthy": 0,
+    "Diseased": 1
+  },
+  "allowed_original_labels": {
+    "Apple___Apple_scab": "Diseased",
+    "Apple___Cedar_apple_rust": "Diseased",
+    "Pepper,_bell___Bacterial_spot": "Diseased",
+    "Tomato___Bacterial_spot": "Diseased",
+    "Tomato___Early_blight": "Diseased",
+    "Tomato___Late_blight": "Diseased",
+    "Tomato___Leaf_Mold": "Diseased",
+    "Tomato___Septoria_leaf_spot": "Diseased",
+    "Tomato___Target_Spot": "Diseased",
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus": "Diseased",
+    "Apple___healthy": "Healthy",
+    "Pepper,_bell___healthy": "Healthy",
+    "Tomato___healthy": "Healthy"
+  },
+  "exclusions": {
+    "Grape": "No healthy leaf grouping metadata in the selected source revision",
+    "Apple___Black_rot": "Grouping label uses a different name; not resolved for this subset",
+    "Tomato___Tomato_mosaic_virus": "No verified leaf grouping metadata",
+    "Tomato___Spider_mites Two-spotted_spider_mite": "Pest-only category outside binary disease scope",
+    "Tomato___Target_Spot": "No source images resolved to the supplied leaf group keys; this class is absent from the selected subset"
+  }
+}

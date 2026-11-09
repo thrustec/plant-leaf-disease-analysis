@@ -1,0 +1,23 @@
+{
+  "source": "https://github.com/spMohanty/PlantVillage-Dataset",
+  "revision": "7f7ecc7e1eaca78107e3affe7cb5abd9427e139a",
+  "seed": 42,
+  "n_images": 900,
+  "n_original_leaf_groups": 900,
+  "counts": {
+    "development/Apple/Diseased": 120,
+    "test/Apple/Diseased": 30,
+    "test/Apple/Healthy": 30,
+    "development/Apple/Healthy": 120,
+    "development/Pepper,_bell/Diseased": 120,
+    "test/Pepper,_bell/Diseased": 30,
+    "development/Pepper,_bell/Healthy": 120,
+    "test/Pepper,_bell/Healthy": 30,
+    "test/Tomato/Diseased": 30,
+    "development/Tomato/Diseased": 120,
+    "development/Tomato/Healthy": 120,
+    "test/Tomato/Healthy": 30
+  },
+  "near_duplicate_rule": "pHash Hamming <= 6 and 64x64 RGB MAE <= 8, or identical decoded pixels",
+  "sampling": "One image per supplied leaf group; equal disease-subtype round-robin sampling"
+}

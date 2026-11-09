@@ -1,0 +1,14 @@
+original_label,health,available_images,verified_groups
+Apple___Apple_scab,Diseased,630,108
+Apple___Cedar_apple_rust,Diseased,275,69
+Apple___healthy,Healthy,1645,257
+"Pepper,_bell___Bacterial_spot",Diseased,997,175
+"Pepper,_bell___healthy",Healthy,1476,165
+Tomato___Bacterial_spot,Diseased,2127,532
+Tomato___Early_blight,Diseased,999,250
+Tomato___Late_blight,Diseased,920,230
+Tomato___Leaf_Mold,Diseased,952,238
+Tomato___Septoria_leaf_spot,Diseased,1000,250
+Tomato___Target_Spot,Diseased,0,0
+Tomato___Tomato_Yellow_Leaf_Curl_Virus,Diseased,2738,685
+Tomato___healthy,Healthy,999,250
