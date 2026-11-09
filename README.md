@@ -97,6 +97,12 @@ Failed Method B masks remain unsuccessful end-to-end cases. Accuracy includes ev
 
 The default model is `models/development_B.joblib`. Use `--method A` for full-image features or `--model` for an explicit saved artifact. Outputs go to `results/prediction/`: original/mask/overlay figure and separate mask/overlay PNGs. The script returns a nonzero exit status and a clear error for invalid inputs or unusable Method B masks. Method A's displayed feature region is the whole image, not a predicted leaf mask.
 
+## Interactive exploration
+
+Notebook section 5b uses `explore.py` to show every intermediate step of Method B's segmentation (border, Lab distance map, threshold, opening, closing, filled region), the A and B feature histograms, and both saved models' predictions for any image. In Colab, set `UPLOAD_NEW_IMAGE = True` to test your own photo. Edit `SEGMENTATION_PARAMETERS` to rerun the paired development comparison with other settings; it uses development images only and writes to `results/experiments/<name>/`.
+
+After the final evaluation exists, the notebook also recomputes it from the frozen models in a temporary copy and compares the headline metrics with the stored benchmark. Nothing in `explore.py` writes to `models/`, `results/development/` or `results/final/`, and it does not change `leaf_pipeline.py` or `experiment.py`, whose hashes the frozen protocol records.
+
 ## Data and experimental records
 
 - `data/manifests/images.csv`: fixed source, plant, original/binary labels, hashes, leaf and split groups, partitions, folds, and annotation selection.
