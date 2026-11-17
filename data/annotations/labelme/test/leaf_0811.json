@@ -1,5 +1,5 @@
 {
-  "version": "6.3.0",
+  "version": "6.3.1",
   "flags": {
     "Emre_reviewed": false,
     "Merve_reviewed": false
@@ -177,20 +177,20 @@
           188.0
         ],
         [
-          64.0,
-          190.0
+          75.97687861271677,
+          188.11560693641619
         ],
         [
-          64.0,
-          194.0
+          81.17919075144508,
+          194.1849710982659
         ],
         [
-          61.0,
-          196.0
+          84.35838150289018,
+          195.05202312138726
         ],
         [
-          61.0,
-          200.0
+          95.0520231213873,
+          199.38728323699422
         ],
         [
           65.0,
@@ -672,7 +672,8 @@
       "group_id": null,
       "description": "Unreviewed GrabCut draft; correct before approval.",
       "shape_type": "polygon",
-      "flags": {}
+      "flags": {},
+      "mask": null
     }
   ],
   "imagePath": "leaf_0811.png",
