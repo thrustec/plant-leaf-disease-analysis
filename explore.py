@@ -24,7 +24,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVC
 
 from experiment import evaluate_final, feature_matrices
-from leaf_pipeline import (DEFAULT_SEGMENTATION, LABELS, ROOT, extract_features, load_rgb,
+from leaf_pipeline import (DEFAULT_SEGMENTATION, IMAGE_SIZE, LABELS, ROOT, extract_features, load_rgb,
                            mask_scores, overlay_mask, predict_image, read_manifest, segment_leaf,
                            texture_region, validate_mask, write_csv, write_json)
 from mask_review import reviewed_references
@@ -41,7 +41,20 @@ def _parameters(parameters):
         raise ValueError(f"Unknown segmentation parameters: {sorted(unknown)}")
     if merged["distance"] <= 0 or min(int(merged[k]) for k in ("border", "opening", "closing")) < 1:
         raise ValueError("Segmentation parameters must be positive")
+    if int(merged["border"]) > IMAGE_SIZE // 2:
+        # Wider frames overlap in segment_leaf and would count pixels twice.
+        raise ValueError(f"border must be between 1 and {IMAGE_SIZE // 2} pixels")
     return merged
+
+
+def development_image_path(rows, image_id, root=ROOT):
+    """Resolve an image_id for interactive inspection; test images are not available here."""
+    by_id = {row["image_id"]: row for row in rows}
+    if image_id not in by_id:
+        raise ValueError(f"Unknown image_id: {image_id}")
+    if by_id[image_id]["partition"] != "development":
+        raise ValueError(f"{image_id} is a locked test image; choose a development image")
+    return Path(root) / by_id[image_id]["path"]
 
 
 def segmentation_steps(rgb, parameters=None):
@@ -210,9 +223,20 @@ def run_parameter_experiment(parameters=None, name=None, root=ROOT, c_values=(0.
     rows = [row for row in validate_dataset(root) if row["partition"] == "development"]
     full, masked, errors = feature_matrices(rows, parameters, root)
     eligible = np.array([not error for error in errors])
+    write_csv(folder / "unusable_masks.csv",
+              [{"image_id": row["image_id"], "reason": error} for row, error in zip(rows, errors) if error],
+              ["image_id", "reason"])
+    # Same gates as experiment.run_development, so no score is produced where the recorded pipeline stops.
+    if eligible.sum() < len(rows) * 0.8:
+        raise ValueError(f"Only {int(eligible.sum())} of {len(rows)} development masks are usable with "
+                         f"{parameters}; the recorded pipeline stops below 80%, so no score is reported. "
+                         f"See {folder / 'unusable_masks.csv'}")
     labels = np.array([row["health"] for row in rows])[eligible]
     folds = np.array([int(row["cv_fold"]) for row in rows])[eligible]
     cv = [(np.flatnonzero(folds != fold), np.flatnonzero(folds == fold)) for fold in range(3)]
+    for train, valid in cv:
+        if set(labels[train]) != set(LABELS) or set(labels[valid]) != set(LABELS):
+            raise ValueError("A cross-validation fold is missing a health class with these parameters")
     summary = {"stage": "exploratory_development", "segmentation": parameters,
                "development_images": len(rows), "shared_training_images": int(eligible.sum()),
                "unusable_masks": int((~eligible).sum()), "methods": {}}
@@ -240,10 +264,11 @@ def run_parameter_experiment(parameters=None, name=None, root=ROOT, c_values=(0.
     if recorded.exists():
         summary["recorded_development"] = {
             k: v for k, v in json.loads(recorded.read_text()).items()
-            if k in ("segmentation", "methods", "cv_macro_f1_B_minus_A", "segmentation_status")}
-    write_csv(folder / "unusable_masks.csv",
-              [{"image_id": row["image_id"], "reason": error} for row, error in zip(rows, errors) if error],
-              ["image_id", "reason"])
+            if k in ("segmentation", "methods", "cv_macro_f1_B_minus_A", "segmentation_status",
+                     "shared_training_images")}
+        # Scores on a different image set are not a like-for-like comparison with the record.
+        summary["comparable_to_recorded"] = (summary["shared_training_images"]
+                                             == summary["recorded_development"]["shared_training_images"])
     write_json(folder / "summary.json", summary)
     return summary
 

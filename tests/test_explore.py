@@ -29,9 +29,49 @@ class ExploreTests(unittest.TestCase):
             self.assertEqual(steps["distance"].shape, (256, 256))
 
     def test_invalid_parameters_rejected(self):
-        for parameters in ({"threshold": 5}, {"distance": -1}, {"closing": 0}):
+        for parameters in ({"threshold": 5}, {"distance": -1}, {"closing": 0}, {"border": 0}, {"border": 129}):
             with self.assertRaises(ValueError):
                 explore.segmentation_steps(self.rgb, parameters)
+        for border in (1, 128):
+            explore.segmentation_steps(self.rgb, {"border": border})
+
+    def test_example_selection_excludes_test_images(self):
+        rows = [{"image_id": "leaf_dev", "partition": "development", "path": "data/raw/a.jpg"},
+                {"image_id": "leaf_test", "partition": "test", "path": "data/raw/b.jpg"}]
+        self.assertEqual(explore.development_image_path(rows, "leaf_dev", Path("/p")), Path("/p/data/raw/a.jpg"))
+        with self.assertRaisesRegex(ValueError, "locked test"):
+            explore.development_image_path(rows, "leaf_test")
+        with self.assertRaisesRegex(ValueError, "Unknown"):
+            explore.development_image_path(rows, "leaf_none")
+
+    def test_parameter_experiment_applies_pipeline_gates(self):
+        rows = [{"image_id": f"leaf_{i}", "health": ("Healthy", "Diseased")[i % 2],
+                 "cv_fold": str(i % 3), "partition": "development"} for i in range(30)]
+        features = np.random.default_rng(0).random((30, 58))
+        with tempfile.TemporaryDirectory() as directory, \
+                mock.patch.object(explore, "validate_dataset", return_value=rows), \
+                mock.patch.object(explore, "reviewed_references", return_value=[]):
+            root = Path(directory)
+            too_few = ["unusable"] * 7 + [""] * 23     # 23/30 < 80%
+            with mock.patch.object(explore, "feature_matrices", return_value=(features, features, too_few)):
+                with self.assertRaisesRegex(ValueError, "80%"):
+                    explore.run_parameter_experiment(name="few", root=root)
+            self.assertFalse((root / "results/experiments/few/summary.json").exists())
+            self.assertTrue((root / "results/experiments/few/unusable_masks.csv").exists())
+            # Removing every Healthy image from fold 0 (6 of 30, still >= 80%) empties a validation class.
+            lost_class = ["unusable" if i % 3 == 0 and i % 2 == 0 else "" for i in range(30)]
+            self.assertGreaterEqual(lost_class.count(""), 24)
+            with mock.patch.object(explore, "feature_matrices", return_value=(features, features, lost_class)):
+                with self.assertRaisesRegex(ValueError, "missing a health class"):
+                    explore.run_parameter_experiment(name="fold", root=root)
+            write_json(root / "results/development/summary.json", {
+                "segmentation": DEFAULT_SEGMENTATION, "shared_training_images": 30,
+                "methods": {}, "cv_macro_f1_B_minus_A": 0.0, "segmentation_status": "x"})
+            some = ["unusable"] + [""] * 29
+            with mock.patch.object(explore, "feature_matrices", return_value=(features, features, some)):
+                summary = explore.run_parameter_experiment(name="ok", root=root)
+            self.assertEqual(summary["shared_training_images"], 29)
+            self.assertFalse(summary["comparable_to_recorded"])
 
     def test_figures_for_a_saved_image(self):
         with tempfile.TemporaryDirectory() as directory:
