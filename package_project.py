@@ -31,5 +31,32 @@ def package():
     return output
 
 
+ARTIFACT_PATTERNS = ["models/*.joblib", "models/frozen_protocol.json",
+                     "results/development/*", "results/final/*"]
+
+
+def package_artifacts():
+    """Build the models/results archive that the Colab notebook downloads from the shared Drive folder.
+
+    Code, manifests and annotations come from the Git repository; raw images come from the
+    pinned PlantVillage source. Only files Git does not track are packaged here.
+    """
+    files = sorted({path for pattern in ARTIFACT_PATTERNS for path in ROOT.glob(pattern) if path.is_file()})
+    if not any(path.suffix == ".joblib" for path in files):
+        raise ValueError("No saved models to package; run the development experiment first")
+    output = ROOT / "dist/shared_artifacts.zip"
+    output.parent.mkdir(exist_ok=True)
+    with ZipFile(output, "w", compression=ZIP_DEFLATED) as archive:
+        for path in files:
+            if not path.resolve().is_relative_to(ROOT):
+                raise ValueError("Refusing to archive a link outside the project")
+            archive.write(path, path.relative_to(ROOT))
+    with ZipFile(output) as archive:
+        assert archive.testzip() is None, "Archive integrity check failed"
+        assert all(name.startswith(("models/", "results/")) for name in archive.namelist())
+    return output
+
+
 if __name__ == "__main__":
-    print(package())
+    import sys
+    print(package_artifacts() if sys.argv[1:] == ["artifacts"] else package())
