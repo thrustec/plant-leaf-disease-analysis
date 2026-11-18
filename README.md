@@ -1,5 +1,6 @@
 # Plant Leaf Disease Analysis Using Segmentation and Machine Learning
 
+
 COM0418 Image Processing, 2026–2027 Fall Semester  
 Emre Cantürk and Merve Gündoğdu
 
@@ -19,6 +20,8 @@ Double-click **Start Jupyter Lab.command**, open `leaf_disease_analysis.ipynb`, 
 
 The local environments are `.venv` for the experiment and `.venv-labelme` for the annotation GUI. The annotation environment is separate so hosted notebook execution does not need Qt or annotation-assistance packages.
 
+This checkout contains a frozen protocol. Before running the notebook or commands below, download [shared_artifacts.zip](https://drive.google.com/file/d/1QHfBnQg6yLIElWTAyRJzjDad9ofgyBgi/view) and extract its `models/` and `results/` folders into the project root.
+
 For a new installation with Python 3.11:
 
 ```bash
@@ -29,7 +32,7 @@ python3 -m venv .venv-labelme
 .venv-labelme/bin/python -m pip install -r requirements-annotation.txt
 .venv/bin/python prepare_data.py
 .venv/bin/python mask_review.py prepare
-.venv/bin/python experiment.py development
+.venv/bin/python experiment.py evaluate
 ```
 
 `requirements.txt` contains tested direct package pins after setup. `requirements-local-lock.txt` and `requirements-annotation-lock.txt` record the complete local Python 3.11 environments; those full locks may contain platform-specific packages. Use the direct core requirements in Colab.
