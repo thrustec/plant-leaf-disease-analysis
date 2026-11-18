@@ -1,0 +1,31 @@
+{
+  "segmentation": {
+    "distance": 18.0,
+    "border": 5,
+    "opening": 3,
+    "closing": 3
+  },
+  "seed": 42,
+  "manifest_sha256": "7b8ec2148ff617a768d441089c7e578e014d4071fcde6421003020f602982038",
+  "implementation_sha256": "d3e7ee1696edeb3e2cf2b522a1338b7c273e83fa06cb9383284a720469f3a0da",
+  "experiment_sha256": "90d73e2478de810799c68dd45c7033e028b486ecec6cf7905351813771da671f",
+  "development_references": {
+    "leaf_0113": "a69b75440a36e4fd04aaedef6e57629d1e765d465a600045eb9a48cfbdac8d6c",
+    "leaf_0121": "934698f47a18526ae86a27d2460639aef5320c61c8ff82961b5763395e91f4bf",
+    "leaf_0156": "a229e6c1b26b718ea8ecbd12537c983b16bc56b66c8ca91d15d69e40bab6d3ae",
+    "leaf_0198": "f3ae1acb9906a92790083a1fc73f924f68f32b2452a37465146dbb7599fa0553",
+    "leaf_0381": "79ce8a4cb44d52ceb30d286a192059177a59efb3735a8dfea1e70142a0cb2380",
+    "leaf_0395": "b0277a6146645c8a3186b59ae2a618ed2d8c77e76d3e90ab8c1db3043b23877f",
+    "leaf_0465": "efee86ff6fe8ce51ff444f6b9eca61a47b24970c83d327dde3f793ef3c51be69",
+    "leaf_0519": "b9a191ea847a93a6fecec1812c79ff0bbfa6a5403d5a27577ad6c228cae80135",
+    "leaf_0689": "11c299b60490795c25e4baa63d0a06d384fddc016aa680eef28964d2d628a74d",
+    "leaf_0743": "f9821bb7fa2decad71b10578e1b48d2be508141cc71be82ac7cfd381b83c10c3",
+    "leaf_0849": "ceb40fdc55b66d14a321319222dc60272e21e537f10ef71d7fd23dd3cbf4ae2b",
+    "leaf_0887": "b9bc28ce8c369b4671b4b8ff06616ece8f24a6fb5f5b39f4e32cb2f33a4f48dc"
+  },
+  "models": {
+    "A": "14135203c86463d02e8f32f5cd9cd412b8e92705bbd3ea9b7e23876f291e2814",
+    "B": "81c1b2581f6479eee722a91b0865a44cf9a3d7b9a5cfa40f73a62caf96ac713c"
+  },
+  "failure_policy": "Full denominator; failures are FN for true class; covered 2x2 matrix plus failures"
+}
