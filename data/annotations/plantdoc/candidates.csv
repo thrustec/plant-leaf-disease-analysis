@@ -1,0 +1,43 @@
+order,image,plant,health,plantdoc_folder,plantdoc_path,sha256
+1,pd_001.png,Apple,Diseased,Apple Scab Leaf,test/Apple Scab Leaf/28-500x375.jpg,5fb95aeef21638c09143a6f15c39c65eb7be22e7c752730c648ed7b60c6d50d8
+2,pd_002.png,Apple,Healthy,Apple leaf,train/Apple leaf/apple-tree-leaves.jpg,fd78b5465bbef6d34b86805a9270c07b4356380ea3cb2c4ba51368eda95b641c
+3,pd_003.png,Bell pepper,Diseased,Bell_pepper leaf spot,train/Bell_pepper leaf spot/bacterialspot3_600px.jpg,c8fec9ceec054a2b9ef48ce7efe756ec11a981052efc4ed862492f7ff5a0c837
+4,pd_004.png,Bell pepper,Healthy,Bell_pepper leaf,train/Bell_pepper leaf/M7JV1.jpg,7a812c37cf5f3cf32fa89ba855bf5a2a524e5423a3f83ae2c0f4f4cc6c3777d0
+5,pd_005.png,Tomato,Diseased,Tomato leaf yellow virus,train/Tomato leaf yellow virus/IMG_2684.JPG.jpg,f6ae6dee46b5c47dc3eaaf472ec2b6dd00d6d8083c5e854afae707c345b6e854
+6,pd_006.png,Tomato,Healthy,Tomato leaf,train/Tomato leaf/Fig-2.jpg,75bcfcb736bcdabbf38a590620688985893c366548978ce1cee9e77d62e881a9
+7,pd_007.png,Apple,Diseased,Apple Scab Leaf,train/Apple Scab Leaf/applescabmalus1.jpg,aa36a7c6d64c2a0721470b93fb32578dc013cc9fe8bacba91377384b5491a857
+8,pd_008.png,Apple,Healthy,Apple leaf,train/Apple leaf/20130519yellowingappleleaves.jpg,042c494d1269cbd01f19abac55767e331b6c70f9e45b4a56918fcb734ead4cc3
+9,pd_009.png,Bell pepper,Diseased,Bell_pepper leaf spot,train/Bell_pepper leaf spot/image_300x300%2523.jpeg?1472603885.jpg,0a4d910ca2943dc49831d41d7e6e908f3123c0120141797d359425e8fa655b5c
+10,pd_010.png,Bell pepper,Healthy,Bell_pepper leaf,train/Bell_pepper leaf/14ec45.jpg,9b117190dfe1fc891dcb97fc95be4e7dc9d608503a7718cf05c2b11e29ffec51
+11,pd_011.png,Tomato,Diseased,Tomato Septoria leaf spot,test/Tomato Septoria leaf spot/0.jpg,c7e82b8ce320acec30c35a89e73490618e425c76d3c80d2d88a3053d39e9709e
+12,pd_012.png,Tomato,Healthy,Tomato leaf,train/Tomato leaf/L.peruv-assort.jpg,22d3021cc9be391aad356bb3c4dc0de6239e6210da8b1d615776cefbaa73a02f
+13,pd_013.png,Apple,Diseased,Apple Scab Leaf,train/Apple Scab Leaf/Apple-Scab-Mulrooney.jpg,417e20e9c5721805f9669566405f97162045321c90a653f3ae1d32c290b70874
+14,pd_014.png,Apple,Healthy,Apple leaf,test/Apple leaf/20180511_091133-24l1vhg-e1526047988236.jpg,646de55f7314f6994e453a8b5306fdf63e7b8f66a28b29fa9274be3b4d763883
+15,pd_015.png,Bell pepper,Diseased,Bell_pepper leaf spot,train/Bell_pepper leaf spot/0.jpg,a9336d6dd7351b26d591c57901c78c51c6477bad7b154df463c1121b04ab433c
+16,pd_016.png,Bell pepper,Healthy,Bell_pepper leaf,train/Bell_pepper leaf/2477703364_0c94646b48.jpg,0960dc5cb5f9a7711d037d59af37f3a70dbac7385f8e2c82e0feb5bb9effccc7
+17,pd_017.png,Tomato,Diseased,Tomato Early blight leaf,train/Tomato Early blight leaf/early-blight-in-high-tunnel-tomatoes-19tm74h.jpg,912ce20afc0cc92d8a3a49bd4f708c5f6c49df69788aad15938b388c5d949d23
+18,pd_018.png,Tomato,Healthy,Tomato leaf,test/Tomato leaf/main-qimg-d9c2a93f60568485c989670d9bbf703b.jpg,66d8d18b9bf9c8d83efd3a0cf09c53fbbd575795a518b57a66bc338c11c07069
+19,pd_019.png,Apple,Diseased,Apple Scab Leaf,train/Apple Scab Leaf/applescableaf-pcd.jpg,68125c161e57e097890cfb5dfce62a4703191ee8d905816d2c6366117aadfe01
+20,pd_020.png,Apple,Healthy,Apple leaf,train/Apple leaf/appleleaf+trial+007.JPG.jpg,700d2c5ad408c6315097321b780b21014c78c156f91461e0c6366dfd57ba6ead
+21,pd_021.png,Bell pepper,Diseased,Bell_pepper leaf spot,train/Bell_pepper leaf spot/Septoria-leaf-spot.jpg,8359148b53be0c6f35e0315cbfafc0a60621e699d33e0f12b847ce412ea38562
+22,pd_022.png,Bell pepper,Healthy,Bell_pepper leaf,train/Bell_pepper leaf/pepper-plant-leaves-green-bell-pepper-seedlings-growing-in-dark-brown-soil-in-the-sunshine-with-a-white-my-pepper-plant-leaves-are-being-eaten.jpg,099022e024fab62a4d4cc9f4f2d0d8f642d6a7202e7df3be7a1ec7a463a533da
+23,pd_023.png,Tomato,Diseased,Tomato Early blight leaf,train/Tomato Early blight leaf/126689-004-D622CD2F.jpg,451d83c709fcbab2f641e27b6cd6315d9bb869cf94210cfcd4e085f5ec399c88
+24,pd_024.png,Tomato,Healthy,Tomato leaf,train/Tomato leaf/single-a-green-leaf-of-tomato-picture-id496662675?k=6&m=496662675&s=612x612&w=0&h=6zKfv022H_9cLQSIR_kpcOAlTeg1eIVtLBbc80PQA7Y=.jpg,91a7140dcd6cf50ee2e7e89095b4b10da2554276c751bef20363a543e60172a7
+25,pd_025.png,Apple,Diseased,Apple rust leaf,test/Apple rust leaf/99e886623c2080c22f6519b0e708c531.jpg,33d5438707e6c733eef23f55d2ca20c455a847cbdaa6055e986c7601b0cd8d23
+26,pd_026.png,Apple,Healthy,Apple leaf,train/Apple leaf/stock-photo-green-apple-leaves-on-the-white-background-796491496.jpg,834e487aa269b2e9cf7bda403ba732061b8fdb7ef57e88cac1cdda4bd7d2874f
+27,pd_027.png,Bell pepper,Diseased,Bell_pepper leaf spot,train/Bell_pepper leaf spot/image_original.jpeg?1472603886.jpg,cd43c5a1b508cbd6254912337b3c9dc771a60d0a0b3d4fdb914b82709b825e06
+28,pd_028.png,Bell pepper,Healthy,Bell_pepper leaf,train/Bell_pepper leaf/dscf1776.jpg,d697dc7c15ca8d1fc093ce525170f5666e200c1103880c6078c989686b55b277
+29,pd_029.png,Tomato,Diseased,Tomato Septoria leaf spot,train/Tomato Septoria leaf spot/SeptoriaTomato-B.jpg,d7957bbfdb523ab71b498b00787dbb799c4da9990513fc80defa6094a79738f0
+30,pd_030.png,Tomato,Healthy,Tomato leaf,train/Tomato leaf/tomato-leaf-6424287.jpg,ea9330cbbc2ad244f89a7484e5516abf711425aa2002916ac8222415fa48792b
+31,pd_031.png,Apple,Diseased,Apple Scab Leaf,train/Apple Scab Leaf/Malus-Scab-disease-225x300.jpg,1be602a32fc5516084769176607954b93d140746304ed6a0192f1bb12521d52a
+32,pd_032.png,Apple,Healthy,Apple leaf,train/Apple leaf/apple-tree-branch-green-leaves-fresh-isolated-white-background-33032924.jpg,f9904c551eb30a96346267050895d8e46e6ae7be454d63a80c74c0c7de5b32b3
+33,pd_033.png,Bell pepper,Diseased,Bell_pepper leaf spot,test/Bell_pepper leaf spot/01.jpg,993f8bea1f19f3bc3334636badfe6e05d1206d7e338d2138cff7392fba6ff9d9
+34,pd_034.png,Bell pepper,Healthy,Bell_pepper leaf,train/Bell_pepper leaf/IMG_1495.JPG.jpg,6ac96c5164ed51dbc82cee5db436ade9c46bd0a823c9e8030ce897043c44ee09
+35,pd_035.png,Tomato,Diseased,Tomato Early blight leaf,train/Tomato Early blight leaf/MPC105550.jpg.rendition.largest.ss.jpg,c280edc30e7bd848018d847e8d4111913799cf3042ce7e33de99c78cff5879f2
+36,pd_036.png,Tomato,Healthy,Tomato leaf,train/Tomato leaf/tomato-leaves-9025906.jpg,dcdedb1003e4f57fbf236ee2009af392bb08ef2fe049db1c83d307a49e9f6251
+37,pd_037.png,Apple,Diseased,Apple Scab Leaf,train/Apple Scab Leaf/img_1916.jpg,0458948b6424b4ab4a4f40a64a04a87aac6e663b5c816e8719c593e8384fd54c
+38,pd_038.png,Apple,Healthy,Apple leaf,train/Apple leaf/apple-tree-branch-plant-fruit-leaf-flower-food-green-produce-flora-immature-apple-tree-flowering-plant-wild-apple-tree-apple-gear-land-plant-606389.jpg,af5db389e972445416fc4c5acb49588b268bc2c57082993dd88ff5b230a59a47
+39,pd_039.png,Bell pepper,Diseased,Bell_pepper leaf spot,train/Bell_pepper leaf spot/BacterialSpot10.jpg,bde6ab558cc247c7dd832bfbb471e3ead53245deada0a61d9ea2920c5503a45d
+40,pd_040.png,Bell pepper,Healthy,Bell_pepper leaf,train/Bell_pepper leaf/DSCN5835_original.JPG?1472909566.jpg,febdb5abdd0efe3e8d6e6da62d3c186c215cb2ec6cd51ca099eef4f6d7ea6a0e
+41,pd_041.png,Tomato,Diseased,Tomato leaf late blight,train/Tomato leaf late blight/lb_leaf_lesions4x1200.jpg,e0cb8e337b7ccffef5c9ffadd988ca0cde1d6b698f721cdd0bb6cc54f674b681
+42,pd_042.png,Tomato,Healthy,Tomato leaf,train/Tomato leaf/PxWBE.jpg,4b85bc7f2190422db15545e957571a2565341a932f7359eb02064b7b845b394d

@@ -153,3 +153,25 @@ python extended_analysis.py external --plantdoc PlantDoc-Dataset   # frozen mode
 The PlantDoc label mapping is fixed in the script (Apple, Bell pepper, Tomato; mosaic virus and spider
 mites excluded). Exact duplicates and PlantVillage near-copies are removed before evaluation; the balanced
 subset keeps every healthy image and the same number of diseased images per plant (seed 42).
+
+### GrabCut leaf mask for field photos (Method B2)
+
+On PlantDoc the frozen Lab mask often covers the whole green scene, because the image border is other
+foliage. `segmentation_grabcut.py` refines it: the same Lab mask, a stronger opening, the component
+nearest the image centre, then OpenCV GrabCut seeded with that component (centre core = sure leaf,
+4 px frame = sure background). Method B2 uses the unchanged 58 HSV+LBP features and RBF SVM inside
+this mask.
+
+`data/annotations/plantdoc/` holds 42 hand-drawn Labelme reference masks on 256x256 PlantDoc photos
+(`candidates.csv` lists source path and SHA-256; images are rebuilt from the PlantDoc checkout). Photos
+flagged `atla_net_yaprak_yok` (no single clear leaf) are skipped. In listed order, the first 10 drawn
+photos are the only ones used to choose the two parameters (opening, central box); the next 20 are a
+once-scored test set.
+
+```bash
+python grabcut_experiment.py masks --plantdoc PlantDoc-Dataset      # Dice/IoU vs references
+python grabcut_experiment.py classify --plantdoc PlantDoc-Dataset   # B2 CV/test + PlantDoc (run `external` first)
+```
+
+Known failure modes: several separate leaves of equal importance, an off-centre subject, and a leaf that
+fills the frame.
