@@ -66,7 +66,7 @@ def cv_macro_f1(features, rows):
 
 
 def leakage(rows, parameters, margin, root):
-    """Share of each reference leaf outline's pixels that fall inside the background region."""
+    """Fraction of background-region pixels covered by the reference leaf outline."""
     records = []
     for row in rows:
         if row.get("annotation_partition") != "development":
