@@ -16,3 +16,4 @@ data/annotations/backups/
 results/
 models/*.joblib
 dist/
+uploads/

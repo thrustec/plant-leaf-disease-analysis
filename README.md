@@ -1,5 +1,6 @@
 # Plant Leaf Disease Analysis Using Segmentation and Machine Learning
 
+
 COM0418 Image Processing, 2026–2027 Fall Semester  
 Emre Cantürk and Merve Gündoğdu
 
@@ -7,7 +8,7 @@ This project compares Healthy/Diseased classification using full-image features 
 
 The notebook and report language is English. The course delivery target is 6 December 2026. The detailed experimental protocol is in [PROJECT_PLAN.md](PROJECT_PLAN.md).
 
-The instructor requires successful execution of the core algorithms and evaluation in a fresh Google Colab runtime. Share the Colab notebook with `ngkasapoglu@gmail.com` as Editor, share the required Google Drive project folder, verify loading through another account, and submit both links with the other required artifacts through CATS. The existing ZIP-upload route and local verification do not yet complete these requirements. See [the current project overview](PROJECT_OVERVIEW.md) and [the two-person work plan](TEAM_WORK_PLAN.md). No interim report is required; confirm the official final deadline and format through CATS.
+The instructor requires successful execution of the core algorithms and evaluation in a fresh Google Colab runtime. Share the Colab notebook with `ngkasapoglu@gmail.com` as Editor, share the required Google Drive project folder, verify loading through another account, and submit both links with the other required artifacts through CATS. The notebook now loads its resources automatically in Colab (see [Run in Colab](#run-in-colab)); a real hosted run from another account is still required. See [the current project overview](PROJECT_OVERVIEW.md) and [the two-person work plan](TEAM_WORK_PLAN.md). No interim report is required; confirm the official final deadline and format through CATS.
 
 ## Current stage
 
@@ -19,6 +20,8 @@ Double-click **Start Jupyter Lab.command**, open `leaf_disease_analysis.ipynb`, 
 
 The local environments are `.venv` for the experiment and `.venv-labelme` for the annotation GUI. The annotation environment is separate so hosted notebook execution does not need Qt or annotation-assistance packages.
 
+This checkout contains a frozen protocol. Before running the notebook or commands below, download [shared_artifacts.zip](https://drive.google.com/file/d/1QHfBnQg6yLIElWTAyRJzjDad9ofgyBgi/view) and extract its `models/` and `results/` folders into the project root.
+
 For a new installation with Python 3.11:
 
 ```bash
@@ -29,21 +32,29 @@ python3 -m venv .venv-labelme
 .venv-labelme/bin/python -m pip install -r requirements-annotation.txt
 .venv/bin/python prepare_data.py
 .venv/bin/python mask_review.py prepare
-.venv/bin/python experiment.py development
+.venv/bin/python experiment.py evaluate
 ```
 
 `requirements.txt` contains tested direct package pins after setup. `requirements-local-lock.txt` and `requirements-annotation-lock.txt` record the complete local Python 3.11 environments; those full locks may contain platform-specific packages. Use the direct core requirements in Colab.
 
 ## Run in Colab
 
-1. Open `leaf_disease_analysis.ipynb` in Colab.
-2. Run the setup cell and upload `dist/leaf_project_colab.zip` when prompted.
-3. The notebook installs core dependencies and restores original images from their pinned URLs with Git-blob and SHA-256 verification.
-4. Continue through the cells. Perform Labelme review locally, then include the reviewed JSON/PNG/index files when preparing a new companion archive.
+Open `leaf_disease_analysis.ipynb` in Colab and choose **Runtime > Run all**. The setup cell needs no upload or manual step:
 
-Rebuild the archive after saving/exporting reviews with `.venv/bin/python package_project.py`.
+1. It clones this repository at `REPO_REF` into `/content/plant-leaf-disease-analysis`. The repository must be public (or otherwise readable without credentials) for the instructor's runtime.
+2. It installs `requirements-colab.txt`: the same processing and model pins as `requirements.txt`, without replacing Colab's own Jupyter/kernel packages. If Colab had already loaded another NumPy, it restarts the runtime once; choose **Run all** again.
+3. If `SHARED_ARTIFACTS_ID` is set, it downloads `shared_artifacts.zip` (saved models, frozen protocol, development and final results) from the shared Drive folder with `gdown`. Share that file as "anyone with the link can view".
+4. Section 2 restores the original images from their pinned URLs with Git-blob and SHA-256 verification.
 
-The archive excludes original dataset images and all virtual environments. It contains shared code, manifests, annotation drafts, saved development models, and recorded development results. Uploading a notebook alone does not supply its companion Python modules. Local execution and actual hosted Colab execution are recorded separately in `PROJECT_STATUS.md`.
+Prepare the shared archive locally after training, freezing or evaluating:
+
+```bash
+.venv/bin/python package_project.py artifacts   # writes dist/shared_artifacts.zip
+```
+
+Upload it to the shared project folder, copy its file ID (the part after `/d/` in the sharing link) into `SHARED_ARTIFACTS_ID`, and commit. Without it, the notebook still runs end to end and refits the development models.
+
+Labelme review stays local. Commit the reviewed JSON files and `reviewed_index.json`; the notebook re-exports reference masks from them. `package_project.py` without arguments still builds the older all-in-one companion ZIP. Local execution and actual hosted Colab execution are recorded separately in `PROJECT_STATUS.md`.
 
 ## Review the 30 reference masks
 
@@ -96,6 +107,12 @@ Failed Method B masks remain unsuccessful end-to-end cases. Accuracy includes ev
 ```
 
 The default model is `models/development_B.joblib`. Use `--method A` for full-image features or `--model` for an explicit saved artifact. Outputs go to `results/prediction/`: original/mask/overlay figure and separate mask/overlay PNGs. The script returns a nonzero exit status and a clear error for invalid inputs or unusable Method B masks. Method A's displayed feature region is the whole image, not a predicted leaf mask.
+
+## Interactive exploration
+
+Notebook section 5b uses `explore.py` to show every intermediate step of Method B's segmentation (border, Lab distance map, threshold, opening, closing, filled region), the A and B feature histograms, and both saved models' predictions for any image. In Colab, set `UPLOAD_NEW_IMAGE = True` to test your own photo. Edit `SEGMENTATION_PARAMETERS` to rerun the paired development comparison with other settings; it uses development images only and writes to `results/experiments/<name>/`.
+
+After the final evaluation exists, the notebook also recomputes it from the frozen models in a temporary copy and compares the headline metrics with the stored benchmark. Nothing in `explore.py` writes to `models/`, `results/development/` or `results/final/`, and it does not change `leaf_pipeline.py` or `experiment.py`, whose hashes the frozen protocol records.
 
 ## Data and experimental records
 

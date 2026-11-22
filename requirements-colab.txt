@@ -1,0 +1,10 @@
+# Hosted (Google Colab) setup. Same pinned processing and model packages as requirements.txt.
+# Jupyter/kernel packages are deliberately not pinned here: Colab's own kernel depends on them.
+numpy==2.4.6
+opencv-python-headless==4.14.0.94
+scikit-image==0.26.0
+scikit-learn==1.9.1
+matplotlib==3.11.2
+joblib==1.6.0
+certifi==2026.10.23
+gdown==5.2.0
