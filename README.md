@@ -135,3 +135,21 @@ Primary data: [PlantVillage](https://github.com/spMohanty/PlantVillage-Dataset),
 Tools: [OpenCV](https://docs.opencv.org/4.x/), [scikit-image LBP](https://scikit-image.org/docs/stable/auto_examples/features_detection/plot_local_binary_pattern.html), [scikit-learn](https://scikit-learn.org/stable/), and [Labelme](https://github.com/wkentaro/labelme).
 
 Controlled-dataset classification does not establish field-ready diagnosis. The 18 segmentation test references form a small diagnostic sample. Report improvements and regressions with the same evidence, including false Healthy predictions and processing failures. The final English report and presentation follow the locked experiment and will not invent missing reference scores.
+
+## Extended analyses (post-freeze, final presentation)
+
+`extended_analysis.py` adds secondary analyses without touching the frozen benchmark
+(`leaf_pipeline.py`, `experiment.py`, `models/frozen_protocol.json` are only read; outputs go to
+`results/extended/`). Choices are made on the 720 development images with the frozen grouped 3-fold
+CV and macro F1; test-set numbers from this script are post-hoc.
+
+```bash
+python extended_analysis.py classifiers    # RBF/linear SVM, LogReg, k-NN, RF, gradient boosting; color/texture ablation
+python extended_analysis.py significance   # McNemar + bootstrap CI for frozen A vs B (test and dev out-of-fold)
+git clone https://github.com/pratikkayal/PlantDoc-Dataset && git -C PlantDoc-Dataset checkout 5467f6012d78d1c446145d5f582da6096f852ae8
+python extended_analysis.py external --plantdoc PlantDoc-Dataset   # frozen models on field photos, no retraining
+```
+
+The PlantDoc label mapping is fixed in the script (Apple, Bell pepper, Tomato; mosaic virus and spider
+mites excluded). Exact duplicates and PlantVillage near-copies are removed before evaluation; the balanced
+subset keeps every healthy image and the same number of diseased images per plant (seed 42).
