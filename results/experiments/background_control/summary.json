@@ -1,0 +1,96 @@
+{
+  "stage": "exploratory_development_control",
+  "segmentation": {
+    "distance": 18.0,
+    "border": 5,
+    "opening": 3,
+    "closing": 3
+  },
+  "development_images": 720,
+  "margins": {
+    "7": {
+      "images": 720,
+      "excluded_small_background": 0,
+      "background_only": {
+        "cv_macro_f1": 0.8401675293475609,
+        "C": 10.0,
+        "fold_macro_f1": [
+          0.8165520116739629,
+          0.8415676464456953,
+          0.8623829299230248
+        ]
+      },
+      "A_full_image_same_images": {
+        "cv_macro_f1": 0.9444438657306936,
+        "C": 10.0,
+        "fold_macro_f1": [
+          0.9541658709352594,
+          0.9333333333333333,
+          0.9458323929234882
+        ]
+      },
+      "B_leaf_mask_same_images": {
+        "cv_macro_f1": 0.9013147321022735,
+        "C": 10.0,
+        "fold_macro_f1": [
+          0.899993055073269,
+          0.9041250542770299,
+          0.8998260869565218
+        ]
+      },
+      "background_only_by_plant": {
+        "Apple": 0.9249060738149314,
+        "Pepper,_bell": 0.8200568798538415,
+        "Tomato": 0.9833268194559402
+      },
+      "leakage_check": {
+        "reference_outlines": 12,
+        "dual_reviewed_outlines": 12,
+        "max_leaf_share_of_background": 0.004166459997023957,
+        "mean_leaf_share_of_background": 0.00034720499975199646
+      }
+    },
+    "21": {
+      "images": 720,
+      "excluded_small_background": 0,
+      "background_only": {
+        "cv_macro_f1": 0.8262773443320736,
+        "C": 10.0,
+        "fold_macro_f1": [
+          0.820755536257056,
+          0.8208053341667969,
+          0.8372711625723674
+        ]
+      },
+      "A_full_image_same_images": {
+        "cv_macro_f1": 0.9444438657306936,
+        "C": 10.0,
+        "fold_macro_f1": [
+          0.9541658709352594,
+          0.9333333333333333,
+          0.9458323929234882
+        ]
+      },
+      "B_leaf_mask_same_images": {
+        "cv_macro_f1": 0.9013147321022735,
+        "C": 10.0,
+        "fold_macro_f1": [
+          0.899993055073269,
+          0.9041250542770299,
+          0.8998260869565218
+        ]
+      },
+      "background_only_by_plant": {
+        "Apple": 0.9248010161651682,
+        "Pepper,_bell": 0.7858604944103291,
+        "Tomato": 0.9791608039326815
+      },
+      "leakage_check": {
+        "reference_outlines": 12,
+        "dual_reviewed_outlines": 12,
+        "max_leaf_share_of_background": 0.0,
+        "mean_leaf_share_of_background": 0.0
+      }
+    }
+  }
+}
