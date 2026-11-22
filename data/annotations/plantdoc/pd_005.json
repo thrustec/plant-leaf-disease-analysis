@@ -1,0 +1,11 @@
+{
+  "version": "6.3.1",
+  "flags": {
+    "atla_net_yaprak_yok": true
+  },
+  "shapes": [],
+  "imagePath": "pd_005.png",
+  "imageData": null,
+  "imageHeight": 256,
+  "imageWidth": 256
+}
