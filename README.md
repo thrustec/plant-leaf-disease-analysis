@@ -205,3 +205,14 @@ PlantDoc balanced subset. The design was fixed before any result; nothing is tun
 python background_experiment.py build --plantdoc PlantDoc-Dataset   # needs TensorFlow; run the PlantDoc, GrabCut and CNN experiments first
 python background_experiment.py evaluate
 ```
+
+### Fine-tuning the CNN
+
+`finetune_experiment.py` trains MobileNetV2 end to end on the full image (two stages: new head, then
+`block_13` onwards), with standard augmentation (FT) and additionally with random field backgrounds
+behind the GrabCut cut-out (FT-aug). Settings were fixed before any result; development score uses the
+same grouped 3 folds; PlantDoc is test-only.
+
+```bash
+python finetune_experiment.py --plantdoc PlantDoc-Dataset   # needs TensorFlow; about 30 minutes on 4 CPU cores
+```
