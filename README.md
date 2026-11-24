@@ -237,3 +237,14 @@ and measures group permutation importance.
 ```bash
 python feature_experiment.py --plantdoc PlantDoc-Dataset   # run the PlantDoc and GrabCut experiments first
 ```
+
+### Combining B2 with the fine-tuned CNN
+
+`ensemble_experiment.py` averages the Diseased probability of B2 (Platt-scaled SVM) and FT-aug
+(retrained with the same settings and seeds) with equal weights and a 0.5 threshold; where the B2 mask
+fails, FT-aug decides alone. One rule fixed in advance, nothing tuned. It also saves the final FT-aug
+model to `data/cache/ft_aug_final.keras` and plots both probabilities on PlantDoc.
+
+```bash
+python ensemble_experiment.py --plantdoc PlantDoc-Dataset   # needs TensorFlow; run the fine-tuning experiment first
+```
