@@ -192,3 +192,16 @@ pip install tensorflow-cpu                                   # only for the feat
 python cnn_experiment.py features --plantdoc PlantDoc-Dataset  # run `extended_analysis.py external` and `grabcut_experiment.py classify` first
 python cnn_experiment.py evaluate
 ```
+
+### Training with randomised backgrounds
+
+`background_experiment.py` cuts each development leaf out with the GrabCut mask and pastes it, in
+place, onto 3 random field photos of crops we never evaluate on (other PlantDoc folders, minus copies
+of evaluation images). The background is independent of the label. A, B2 and A-CNN are retrained on
+originals plus composites (validation folds hold originals only) and tested on PlantVillage and the
+PlantDoc balanced subset. The design was fixed before any result; nothing is tuned on PlantDoc.
+
+```bash
+python background_experiment.py build --plantdoc PlantDoc-Dataset   # needs TensorFlow; run the PlantDoc, GrabCut and CNN experiments first
+python background_experiment.py evaluate
+```
