@@ -226,3 +226,14 @@ errors (seed 42). Nothing is retrained.
 ```bash
 python error_analysis.py --plantdoc PlantDoc-Dataset
 ```
+
+### Extra hand-crafted features
+
+`feature_experiment.py` adds four interpretable groups inside the GrabCut mask (lesion share and
+count, colour moments, GLCM texture, leaf shape) to the 58 B2 features, chooses a candidate on
+development CV with a rule fixed in advance, reports every candidate on PlantVillage and PlantDoc,
+and measures group permutation importance.
+
+```bash
+python feature_experiment.py --plantdoc PlantDoc-Dataset   # run the PlantDoc and GrabCut experiments first
+```
