@@ -154,6 +154,10 @@ The PlantDoc label mapping is fixed in the script (Apple, Bell pepper, Tomato; m
 mites excluded). Exact duplicates and PlantVillage near-copies are removed before evaluation; the balanced
 subset keeps every healthy image and the same number of diseased images per plant (seed 42).
 
+Run the PlantDoc experiments on a case-sensitive disk (Colab or Linux). PlantDoc contains two
+different images, `train/Apple rust leaf/CAR1.jpg` and `car1.jpg`; a default macOS or Windows disk keeps
+only one of them, so both scripts stop with an error there instead of silently changing the inventory.
+
 ### GrabCut leaf mask for field photos (Method B2)
 
 On PlantDoc the frozen Lab mask often covers the whole green scene, because the image border is other

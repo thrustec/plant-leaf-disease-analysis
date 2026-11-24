@@ -1,11 +1,14 @@
 """Checks for the post-freeze GrabCut segmentation (segmentation_grabcut.py)."""
 
 import json
+from pathlib import Path
+import tempfile
 import unittest
 
 import cv2
 import numpy as np
 
+from extended_analysis import require_case_sensitive
 from grabcut_experiment import SKIP_FLAG, reference_mask
 from leaf_pipeline import ROOT, DEFAULT_SEGMENTATION, mask_scores, segment_leaf
 from segmentation_grabcut import central_component, grabcut_leaf
@@ -58,6 +61,20 @@ class GrabCutTests(unittest.TestCase):
             self.assertTrue(reference_mask(annotation).any())
             drawn += 1
         self.assertGreaterEqual(drawn, 30)  # 10 selection + 20 test images
+
+    def test_case_insensitive_plantdoc_disk_is_refused(self):
+        with tempfile.TemporaryDirectory() as folder:
+            rust = Path(folder) / "train/Apple rust leaf"
+            rust.mkdir(parents=True)
+            (rust / "CAR1.jpg").write_bytes(b"first image")
+            with self.assertRaises(SystemExit):  # only one of the two files survived
+                require_case_sensitive(folder)
+            (rust / "car1.jpg").symlink_to(rust / "CAR1.jpg")
+            with self.assertRaises(SystemExit):  # both names point to the same file
+                require_case_sensitive(folder)
+            (rust / "car1.jpg").unlink()
+            (rust / "car1.jpg").write_bytes(b"second image")
+            require_case_sensitive(folder)
 
 
 if __name__ == "__main__":

@@ -222,9 +222,21 @@ def hamming(first, second):
     return int(np.unpackbits(np.bitwise_xor(first, second)).sum())
 
 
+def require_case_sensitive(plantdoc):
+    """PlantDoc has two different images whose names differ only in case (Apple rust leaf/CAR1.jpg and
+    car1.jpg). A case-insensitive disk (default macOS, Windows) keeps only one of them, which silently
+    changes the inventory, so stop with a clear message instead."""
+    folder = Path(plantdoc) / "train/Apple rust leaf"
+    upper, lower = folder / "CAR1.jpg", folder / "car1.jpg"
+    if not (upper.is_file() and lower.is_file()) or upper.samefile(lower) or file_hash(upper) == file_hash(lower):
+        raise SystemExit(f"{folder}: CAR1.jpg and car1.jpg must be two different files. This disk is not "
+                         "case-sensitive; run the PlantDoc experiments on Colab, Linux or a case-sensitive volume.")
+
+
 def plantdoc_inventory(plantdoc, root=ROOT):
     """Readable, de-duplicated PlantDoc images in our three plants, minus PlantVillage near-copies."""
     plantdoc = Path(plantdoc)
+    require_case_sensitive(plantdoc)
     village = [dhash(load_rgb(Path(root) / row["path"])) for row in read_manifest(root)]
     records, seen, rejected = [], {}, []
     for split in ("train", "test"):
