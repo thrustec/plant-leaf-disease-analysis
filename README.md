@@ -216,3 +216,13 @@ same grouped 3 folds; PlantDoc is test-only.
 ```bash
 python finetune_experiment.py --plantdoc PlantDoc-Dataset   # needs TensorFlow; about 30 minutes on 4 CPU cores
 ```
+
+### Error analysis on field photos
+
+`error_analysis.py` groups Method B2's PlantDoc errors by disease folder, plant, GrabCut mask size
+and image resolution, compares other methods on the same groups, and draws a gallery of random
+errors (seed 42). Nothing is retrained.
+
+```bash
+python error_analysis.py --plantdoc PlantDoc-Dataset
+```
