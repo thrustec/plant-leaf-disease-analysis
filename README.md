@@ -179,3 +179,16 @@ python grabcut_experiment.py classify --plantdoc PlantDoc-Dataset   # B2 CV/test
 
 Known failure modes: several separate leaves of equal importance, an off-centre subject, and a leaf that
 fills the frame.
+
+### Pretrained CNN features vs hand-crafted features
+
+`cnn_experiment.py` keeps the RBF SVM, folds and failure accounting, and replaces the 58 HSV+LBP
+features by the 1280-value output of MobileNetV2 pretrained on ImageNet (fixed extractor, no
+fine-tuning). A-CNN uses the full image; B-CNN and B2-CNN paint pixels outside the frozen Lab mask
+or the GrabCut mask mid-grey. PlantDoc is never used for training.
+
+```bash
+pip install tensorflow-cpu                                   # only for the feature step
+python cnn_experiment.py features --plantdoc PlantDoc-Dataset  # run `extended_analysis.py external` and `grabcut_experiment.py classify` first
+python cnn_experiment.py evaluate
+```
