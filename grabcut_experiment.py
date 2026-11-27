@@ -35,7 +35,7 @@ import numpy as np
 from sklearn.model_selection import cross_val_predict
 
 from extended_analysis import (OUTPUT as EXTENDED, bootstrap_difference, classifiers, fit_search, load_data,
-                               macro_f1, mcnemar)
+                               macro_f1, mcnemar, require_case_sensitive)
 from leaf_pipeline import (ROOT, extract_features, file_hash, load_rgb, mask_scores, read_manifest,
                            segment_leaf, write_csv, write_json)
 from segmentation_grabcut import GRABCUT, central_lab_mask, grabcut_leaf
@@ -186,6 +186,7 @@ def paired(truth, first, second):
 
 
 def run_classify(plantdoc, root=ROOT):
+    require_case_sensitive(plantdoc)
     frozen, data = load_data(root)
     external = EXTENDED / "plantdoc"
     if not (external / "predictions.csv").exists():

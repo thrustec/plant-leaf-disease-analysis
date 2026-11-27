@@ -154,6 +154,10 @@ The PlantDoc label mapping is fixed in the script (Apple, Bell pepper, Tomato; m
 mites excluded). Exact duplicates and PlantVillage near-copies are removed before evaluation; the balanced
 subset keeps every healthy image and the same number of diseased images per plant (seed 42).
 
+Run the PlantDoc experiments on a case-sensitive disk (Colab or Linux). PlantDoc contains two
+different images, `train/Apple rust leaf/CAR1.jpg` and `car1.jpg`; a default macOS or Windows disk keeps
+only one of them, so both scripts stop with an error there instead of silently changing the inventory.
+
 ### GrabCut leaf mask for field photos (Method B2)
 
 On PlantDoc the frozen Lab mask often covers the whole green scene, because the image border is other
@@ -175,3 +179,72 @@ python grabcut_experiment.py classify --plantdoc PlantDoc-Dataset   # B2 CV/test
 
 Known failure modes: several separate leaves of equal importance, an off-centre subject, and a leaf that
 fills the frame.
+
+### Pretrained CNN features vs hand-crafted features
+
+`cnn_experiment.py` keeps the RBF SVM, folds and failure accounting, and replaces the 58 HSV+LBP
+features by the 1280-value output of MobileNetV2 pretrained on ImageNet (fixed extractor, no
+fine-tuning). A-CNN uses the full image; B-CNN and B2-CNN paint pixels outside the frozen Lab mask
+or the GrabCut mask mid-grey. PlantDoc is never used for training.
+
+```bash
+pip install tensorflow-cpu                                   # only for the feature step
+python cnn_experiment.py features --plantdoc PlantDoc-Dataset  # run `extended_analysis.py external` and `grabcut_experiment.py classify` first
+python cnn_experiment.py evaluate
+```
+
+### Training with randomised backgrounds
+
+`background_experiment.py` cuts each development leaf out with the GrabCut mask and pastes it, in
+place, onto 3 random field photos of crops we never evaluate on (other PlantDoc folders, minus copies
+of evaluation images). The background is independent of the label. A, B2 and A-CNN are retrained on
+originals plus composites (validation folds hold originals only) and tested on PlantVillage and the
+PlantDoc balanced subset. The design was fixed before any result; nothing is tuned on PlantDoc.
+
+```bash
+python background_experiment.py build --plantdoc PlantDoc-Dataset   # needs TensorFlow; run the PlantDoc, GrabCut and CNN experiments first
+python background_experiment.py evaluate
+```
+
+### Fine-tuning the CNN
+
+`finetune_experiment.py` trains MobileNetV2 end to end on the full image (two stages: new head, then
+`block_13` onwards), with standard augmentation (FT) and additionally with random field backgrounds
+behind the GrabCut cut-out (FT-aug). Settings were fixed before any result; development score uses the
+same grouped 3 folds; PlantDoc is test-only.
+
+```bash
+python finetune_experiment.py --plantdoc PlantDoc-Dataset   # needs TensorFlow; about 30 minutes on 4 CPU cores
+```
+
+### Error analysis on field photos
+
+`error_analysis.py` groups Method B2's PlantDoc errors by disease folder, plant, GrabCut mask size
+and image resolution, compares other methods on the same groups, and draws a gallery of random
+errors (seed 42). Nothing is retrained.
+
+```bash
+python error_analysis.py --plantdoc PlantDoc-Dataset
+```
+
+### Extra hand-crafted features
+
+`feature_experiment.py` adds four interpretable groups inside the GrabCut mask (lesion share and
+count, colour moments, GLCM texture, leaf shape) to the 58 B2 features, chooses a candidate on
+development CV with a rule fixed in advance, reports every candidate on PlantVillage and PlantDoc,
+and measures group permutation importance.
+
+```bash
+python feature_experiment.py --plantdoc PlantDoc-Dataset   # run the PlantDoc and GrabCut experiments first
+```
+
+### Combining B2 with the fine-tuned CNN
+
+`ensemble_experiment.py` averages the Diseased probability of B2 (Platt-scaled SVM) and FT-aug
+(retrained with the same settings and seeds) with equal weights and a 0.5 threshold; where the B2 mask
+fails, FT-aug decides alone. One rule fixed in advance, nothing tuned. It also saves the final FT-aug
+model to `data/cache/ft_aug_final.keras` and plots both probabilities on PlantDoc.
+
+```bash
+python ensemble_experiment.py --plantdoc PlantDoc-Dataset   # needs TensorFlow; run the fine-tuning experiment first
+```
