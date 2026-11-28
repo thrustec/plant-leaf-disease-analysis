@@ -177,6 +177,10 @@ python grabcut_experiment.py masks --plantdoc PlantDoc-Dataset      # Dice/IoU v
 python grabcut_experiment.py classify --plantdoc PlantDoc-Dataset   # B2 CV/test + PlantDoc (run `external` first)
 ```
 
+`classify` also saves the fitted B2 model as `models/development_B2.joblib`. The notebook's single
+image demonstration loads it, so rebuild `shared_artifacts.zip` (`python package_project.py artifacts`)
+after running it.
+
 Known failure modes: several separate leaves of equal importance, an off-centre subject, and a leaf that
 fills the frame.
 

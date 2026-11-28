@@ -9,7 +9,8 @@ import cv2
 import numpy as np
 
 from extended_analysis import require_case_sensitive
-from grabcut_experiment import SKIP_FLAG, reference_mask
+from extended_analysis import classifiers
+from grabcut_experiment import SKIP_FLAG, reference_mask, save_b2_model
 from leaf_pipeline import ROOT, DEFAULT_SEGMENTATION, mask_scores, segment_leaf
 from segmentation_grabcut import central_component, grabcut_leaf
 
@@ -75,6 +76,22 @@ class GrabCutTests(unittest.TestCase):
             (rust / "car1.jpg").unlink()
             (rust / "car1.jpg").write_bytes(b"second image")
             require_case_sensitive(folder)
+
+    def test_saved_b2_model_runs_like_the_notebook_demo(self):
+        import joblib
+        features = np.random.default_rng(0).normal(size=(40, 58))
+        labels = np.array(["Healthy", "Diseased"] * 20, dtype=object)
+        model, _ = classifiers()["svm_rbf"]
+        model.set_params(svc__C=10.0).fit(features, labels)
+        with tempfile.TemporaryDirectory() as folder:
+            path = save_b2_model(model, DEFAULT_SEGMENTATION, ["leaf_0001"], folder)
+            artifact = joblib.load(path)
+        self.assertEqual(path.name, "development_B2.joblib")
+        self.assertEqual(artifact["best_C"], 10.0)
+        rgb, _ = leaf_scene()
+        mask = grabcut_leaf(rgb, artifact["segmentation"], artifact["grabcut_parameters"])
+        self.assertIn(artifact["pipeline"].predict(features[:1])[0], artifact["labels"])
+        self.assertTrue(mask.any())
 
 
 if __name__ == "__main__":
