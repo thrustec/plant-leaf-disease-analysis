@@ -32,7 +32,8 @@ def package():
 
 
 ARTIFACT_PATTERNS = ["models/*.joblib", "models/frozen_protocol.json",
-                     "results/development/*", "results/final/*"]
+                     "results/development/*", "results/final/*", "results/extended/**/*",
+                     "data/cache/ft_aug_final.keras"]
 
 
 def package_artifacts():
@@ -53,7 +54,8 @@ def package_artifacts():
             archive.write(path, path.relative_to(ROOT))
     with ZipFile(output) as archive:
         assert archive.testzip() is None, "Archive integrity check failed"
-        assert all(name.startswith(("models/", "results/")) for name in archive.namelist())
+        assert all(name.startswith(("models/", "results/")) or name == "data/cache/ft_aug_final.keras"
+                   for name in archive.namelist())
     return output
 
 
