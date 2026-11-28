@@ -17,7 +17,8 @@ classify  Method B2: the same 58 HSV+LBP features and RBF SVM as Method B, but i
           The PlantVillage test and the PlantDoc balanced subset are post-hoc. PlantDoc is
           never used for training. Needs the outputs of
           `python extended_analysis.py external --plantdoc PATH` (same inventory and
-          A/B predictions).
+          A/B predictions). The fitted B2 model is saved to models/development_B2.joblib
+          (same layout as development_A/B, plus the GrabCut parameters) for the notebook demo.
 
 Usage:
     python grabcut_experiment.py masks --plantdoc PATH
@@ -31,12 +32,13 @@ import json
 from pathlib import Path
 
 import cv2
+import joblib
 import numpy as np
 from sklearn.model_selection import cross_val_predict
 
 from extended_analysis import (OUTPUT as EXTENDED, bootstrap_difference, classifiers, fit_search, load_data,
                                macro_f1, mcnemar, require_case_sensitive)
-from leaf_pipeline import (ROOT, extract_features, file_hash, load_rgb, mask_scores, read_manifest,
+from leaf_pipeline import (LABELS, ROOT, SEED, extract_features, file_hash, load_rgb, mask_scores, read_manifest,
                            segment_leaf, write_csv, write_json)
 from segmentation_grabcut import GRABCUT, central_lab_mask, grabcut_leaf
 
@@ -181,6 +183,18 @@ def predict(estimator, features):
     return predictions
 
 
+def save_b2_model(estimator, segmentation, training_image_ids, root=ROOT):
+    """Store the fitted B2 classifier like experiment.py stores A and B, plus the GrabCut parameters."""
+    artifact = {"method": "B2", "pipeline": estimator, "segmentation": dict(segmentation),
+                "grabcut_parameters": dict(GRABCUT), "labels": list(LABELS), "image_size": [256, 256],
+                "feature_count": 58, "seed": SEED, "best_C": float(estimator.get_params()["svc__C"]),
+                "training_image_ids": list(training_image_ids)}
+    path = Path(root) / "models" / "development_B2.joblib"
+    path.parent.mkdir(exist_ok=True)
+    joblib.dump(artifact, path)
+    return path
+
+
 def paired(truth, first, second):
     return {"mcnemar": mcnemar(truth, first, second), "bootstrap": bootstrap_difference(truth, first, second)}
 
@@ -222,6 +236,9 @@ def run_classify(plantdoc, root=ROOT):
         out_of_fold[method] = cross_val_predict(search.best_estimator_, train[method][eligible], labels,
                                                 cv=cv).astype(object)
         test_predictions[method] = predict(search.best_estimator_, held_out[method])
+        if method == "B2":
+            save_b2_model(search.best_estimator_, frozen["segmentation"],
+                          [row["image_id"] for row, keep in zip(dev["rows"], eligible) if keep], root)
         result["methods"][method] = {**record, "test_macro_f1_posthoc": macro_f1(truth, test_predictions[method])}
         print(f"{method:2s}: dev CV {record['cv_macro_f1']:.4f}  test {result['methods'][method]['test_macro_f1_posthoc']:.4f}",
               flush=True)
